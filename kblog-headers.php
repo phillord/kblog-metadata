@@ -91,7 +91,7 @@ class kblog_headers{
                 ("citation_title"=>htmlentities( $this->kblog_metadata_get_the_title() ) );
         }
         
-        return $this->kblog_metadata_generate_metatags( $metadata_items );
+        return $this->kblog_metadata_generate_metatags( "name", $metadata_items );
     }
 
     // End Google Scholar meta tags
@@ -166,7 +166,7 @@ class kblog_headers{
                 ("og:url"=>home_url());
         }
         
-        return $this->kblog_metadata_generate_metatags( $metadata_items );
+        return $this->kblog_metadata_generate_metatags( "property", $metadata_items );
     }
     
     function ogp_query_vars($query_vars){
@@ -232,20 +232,20 @@ EOT;
     
 
     // Generally useful functions
-    function kblog_metadata_generate_metatags($metadata_items){
+    function kblog_metadata_generate_metatags($meta_key, $metadata_items){
         $metadata = "";
         foreach( $metadata_items as $item ){
             // single element for each
             foreach( $item as $key=>$value ){
                 // <meta name="resource_type" content="knowledgeblog"/>
-                $metadata .=  $this->kblog_metadata_meta_tag( $key, $value );
+                $metadata .=  $this->kblog_metadata_meta_tag( $meta_key, $key, $value );
             }
         }
         return $metadata;
     }
 
-    function kblog_metadata_meta_tag($key, $value){
-        return '<meta property="' . $key . 
+    function kblog_metadata_meta_tag($meta_key, $key, $value){
+        return '<meta ' . $meta_key . '="' . $key . 
             '" content="' . $value . '"/>' . "\n";
     }
     
