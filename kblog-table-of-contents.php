@@ -92,7 +92,7 @@ EOT;
                                      ), $atts));
         
         
-        $posts = $this->get_posts();
+        $posts = $this->get_posts( $cat );
 
         $out = "<ul>";
         
@@ -165,15 +165,9 @@ kblog_table_init();
 class kblog_table_of_contents_admin{
 
     function __construct(){
-        add_action( "admin_menu", array( $this, "admin_page_init" ) );
-        
+        add_action( "kblog_admin", array( $this, "plugin_options_menu" ) );
     }
 
-    function admin_page_init(){
-        add_options_page("Kblog Contents", "Kblog Content",
-                         "manage_options", "kblog-table-of-contents",
-                         array($this, "plugin_options_menu") );
-    }
 
     function plugin_options_menu()
     {
@@ -184,7 +178,8 @@ class kblog_table_of_contents_admin{
         global $kblog_table;
 
         $out .= <<<EOT
-<h2>Kblog Table of Contents Options</h2>
+
+<h3>Table of Contents</h3>
 <form id="kblog-table" name="ktoc" action="" method="POST">
 <input type="hidden" name="kblog-table-hidden" value="Y">
 <p>What is default category to display?</p>
@@ -231,6 +226,7 @@ EOT;
             <p class="submit">
             <input type="submit" class="button-primary" value="$save_changes"/>
             </p>
+            </form>
 EOT;
 
         // and print
@@ -240,8 +236,8 @@ EOT;
 }
 
 function kblog_table_admin_init(){
-    global $kblog_admin;
-    $kblog_admin = new kblog_table_of_contents_admin();
+    global $kblog_table_admin;
+    $kblog_table_admin = new kblog_table_of_contents_admin();
 }
 
 if( is_admin() ){
