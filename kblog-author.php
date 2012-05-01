@@ -165,10 +165,10 @@ class kblog_author_admin{
             $out = "<p>Display author is currently <strong>";
             $out .= get_the_author_meta("display_name", $authorID);
             $out .= "</strong> who is the WordPress author</p>\n";
-            $out .= "<p>Set display authors<p>";
+            $out .= "<p>Set display authors</p>";
         }
 
-        $out .= "<form>\n";
+
         $out .= wp_nonce_field("kblog_set_authors",
              "kblog_set_authors_field",
              true, false );
@@ -182,17 +182,18 @@ class kblog_author_admin{
             $out .= $author_count++;
             $out .= '" value="';
             $out .= $auth["display_name"];
-            $out .= '"></input>';
+            $out .= '" />';
             $out .= "</li>\n";
         }
         
         for( $i=0;$i < 3;$i++){
             $out .= '<li><input type="text" name="gui_author';
             $out .= $author_count++;
-            $out .= '"></input>';
+            $out .= '"/>';
             $out .= "</li>\n";
         }
         
+        $out .= "</ul>";
         $out .= "<p>Save post to add more</p>";
                     
         print( $out );
@@ -209,8 +210,6 @@ class kblog_author_admin{
         // check user permissions
         if ($_POST['post_type'] == 'page'){
             if (!current_user_can('edit_page', $post_id)){
-                exit();
-                
                 return $post_id;
             }
         }
