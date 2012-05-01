@@ -4,7 +4,7 @@ Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 0.1
+Stable tag: 0.2
 
 Tools for exposing and editing the bibliographic metadata of academic posts. 
 
@@ -31,12 +31,13 @@ adding metadata in as many formats as possible, in the hope that, for any
 tool, at least one will work. 
 
 Kblog Metadata enhances the ability of WordPress to expose and edit
-bibliographic metadata of academic posts. It currently consists of three core
+bibliographic metadata of academic posts. It currently consists of four
 pieces of functionality
 
 * kblog-headers -- adds invisible metadata
 * kblog-authors -- allows multiple authors, without requring WordPress accounts
 * kblog-table-of-contents -- displays all posts in a variety of formats. 
+* kblog-title -- set container titles ("blogname") per post or using a custom taxonomy.
 
 We will include new formats or specifications where possible, so long as they
 are not too computationally intensive. Please send email to the [mailing
@@ -84,6 +85,18 @@ Authors can be added either on the "Edit Post" page of Wordpress, or through
 the use of an &#91;author&#93; shortcode within the document content. Authors
 specified within the post content take precedence.  
 
+== Kblog Title == 
+
+Authors may wish to alter the apparent title of their blog for a post or a
+group of posts. For example, I may wish to publish a paper that I have written
+for a conference on my own blog, but wish the metadata to refer to the
+conference. Alternatively, as with
+[bio-ontologies](http://bio-ontologies.knowledgeblog.org) I may wish to host
+multiple meetings on a single website (one per year, for instance), and have
+the year, or meeting number, appear in the metadata. Kblog Title allows both
+of these uses, by allowing the user to set the container name ("blogname")
+either for an individual post, or using an Event tag. 
+
 
 == Acknowledgements ==
 
@@ -96,7 +109,18 @@ License.
 1. Unzip the downloaded .zip archive to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
+
+== Upgrade Notice ==
+
+= 0.2 = 
+Can now support multiple event titles on a single blog.
+
 == Changelog ==
+
+= 0.2 = 
+
+1. kblog-title now allows setting of container titles independent of
+wordpress. 
 
 = 0.1 =
 
