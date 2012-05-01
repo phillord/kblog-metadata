@@ -29,6 +29,7 @@
 require_once( dirname( __FILE__ ) . "/kblog-author.php" );
 require_once( dirname( __FILE__ ) . "/kblog-table-of-contents.php" );
 require_once( dirname( __FILE__ ) . "/kblog-headers.php" );
+require_once( dirname( __FILE__ ) . "/kblog-title.php" );
 
 /*
  * A single admin page for all metadata functions

@@ -42,7 +42,7 @@ class kblog_headers{
             
         }
         $title = urlencode( get_the_title() );
-        $blogtitle = urlencode( get_bloginfo('name') );
+        $blogtitle = urlencode( $this->get_container_title() );
         $time = get_the_time( 'Y-m-d' );
         $permalink = urlencode( get_permalink() );
         
@@ -74,7 +74,7 @@ class kblog_headers{
         $metadata_items = array
             (
              array( "resource_type"=>"knowledgeblog" ),
-             array( "citation_journal_title"=>htmlentities( get_bloginfo( 'name' ) ) ),
+             array( "citation_journal_title"=>htmlentities( $this->get_container_title() ) ),
              array( "citation_publication_date"=>htmlentities( get_the_time( 'Y/m/d' ) ) ),
              );
         
@@ -129,7 +129,7 @@ class kblog_headers{
         // got to here
         $metadata_items = array();
         $metadata_items[] = array
-            ("og:site_name"=>htmlentities( get_bloginfo() ) );
+            ("og:site_name"=>htmlentities( $this->get_container_title() ) );
         
 
         if( is_single() ){
@@ -291,6 +291,12 @@ EOT;
     {
         return
             kblog_author_get_authors( $this->kblog_metadata_get_the_ID () );
+    }
+
+    
+    function get_container_title(){
+        return 
+            kblog_title_get_container_title( $this->kblog_metadata_get_the_ID() );
     }
 
 }
