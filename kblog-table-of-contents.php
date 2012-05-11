@@ -85,7 +85,6 @@ EOT;
 
 
     function table_shortcode( $atts, $content ){
-        // not used yet
         extract(shortcode_atts(array(
                                      'cat' => false,
                                      'fill' => 'by',
