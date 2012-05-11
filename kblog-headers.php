@@ -74,21 +74,21 @@ class kblog_headers{
         $metadata_items = array
             (
              array( "resource_type"=>"knowledgeblog" ),
-             array( "citation_journal_title"=>htmlentities( $this->get_container_title() ) ),
-             array( "citation_publication_date"=>htmlentities( get_the_time( 'Y/m/d' ) ) ),
+             array( "citation_journal_title"=>$this->htmlentities( $this->get_container_title() ) ),
+             array( "citation_publication_date"=>$this->htmlentities( get_the_time( 'Y/m/d' ) ) ),
              );
         
         
-        if( is_single() ){
+        if( is_single() || is_page() ){
             $authors = $this->kblog_metadata_get_authors();
             foreach( $authors as $author ){
                 
                 $metadata_items[] = array
-                    ( "citation_author"=>htmlentities($this->kblog_metadata_concat_name($author)));
+                    ( "citation_author"=>$this->htmlentities($this->kblog_metadata_concat_name($author)));
             }
             
             $metadata_items[] = array
-                ("citation_title"=>htmlentities( $this->kblog_metadata_get_the_title() ) );
+                ("citation_title"=>$this->htmlentities( $this->kblog_metadata_get_the_title() ) );
         }
         
         return $this->kblog_metadata_generate_metatags( "name", $metadata_items );
@@ -112,7 +112,7 @@ class kblog_headers{
 
     function kblog_metadata_language_attributes_ogp_filter( $language_attributes )
     {
-        if( is_single() ){
+        if( is_single() || is_page() ){
             $language_attributes .= ' xmlns:article="http://ogp.me/ns/article#"';
         }
         
@@ -129,12 +129,12 @@ class kblog_headers{
         // got to here
         $metadata_items = array();
         $metadata_items[] = array
-            ("og:site_name"=>htmlentities( $this->get_container_title() ) );
+            ("og:site_name"=>$this->htmlentities( $this->get_container_title() ) );
         
 
-        if( is_single() ){
+        if( is_single() || is_page() ){
             $metadata_items[] = array
-                ("og:title"=>htmlentities( $this->kblog_metadata_get_the_title() ) );
+                ("og:title"=>$this->htmlentities( $this->kblog_metadata_get_the_title() ) );
             $metadata_items[] = array
                 ("og:type"=>"article");
             $metadata_items[] = array
@@ -297,6 +297,16 @@ EOT;
     function get_container_title(){
         return 
             kblog_title_get_container_title( $this->kblog_metadata_get_the_ID() );
+    }
+
+    function htmlentities( $string ){
+        // ENT_COMPAT | ENT_HTML401 is default argu
+        // "UTF-8" may be depending on PHP version, but it might also
+        // be iso-8859-1, which will result in some strange things happening. 
+        return htmlentities( $string,
+                             ENT_COMPAT | ENT_HTML401, 
+                             "UTF-8"
+                             );
     }
 
 }
