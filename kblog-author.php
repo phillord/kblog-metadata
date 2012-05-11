@@ -136,6 +136,12 @@ class kblog_author_admin{
                       "Display Authors",
                       array( $this, 'render_author_meta_box' ),
                       'post' );
+
+        add_meta_box( "kblog-author-meta-box",
+                      "Display Authors",
+                      array( $this, 'render_author_meta_box' ),
+                      'page' );
+
     }
 
     function render_author_meta_box(){
