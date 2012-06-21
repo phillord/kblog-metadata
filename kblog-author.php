@@ -301,7 +301,12 @@ function kblog_author_get_authors($postid=false){
 }
 
 function kblog_author_author(){
-    print( kblog_author_get_authors() );
+    $arr = array();
+    $authors = kblog_author_get_authors();
+    foreach( $authors as $author ){
+        $arr[] = $author[ "display_name" ];
+    }
+    return implode( ",", $arr );
 }
 
 

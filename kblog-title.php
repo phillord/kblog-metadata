@@ -191,21 +191,20 @@ if( is_admin() ){
 
 
 // export functionality
-function kblog_title_get_container_title($postid){
-    global $kblog_title;
-    return $kblog_title->get_container_title($postid);
-}
-
 
 // drop in replacement for bloginfo( 'name' ) in the header. When displaying a singular post
 // the title will be this, plus
 function kblog_title_container_title(){
+    echo kblog_title_get_container_title();
+}
+
+function kblog_title_get_container_title(){
+    global $kblog_title;
+    
     if( is_singular() ){
-        echo kblog_title_get_container_title( get_the_ID() );
+        return $kblog_title->get_container_title( get_the_ID() );
     }
-    else{
-        bloginfo( 'name' );
-    }
+    return get_bloginfo( 'name' );
 }
 
 ?>

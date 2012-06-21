@@ -55,6 +55,32 @@ class kblog_table_of_contents{
             exit();
         }
 
+        // TODO -- this is entirely untested
+        // the greycite call is a bit of a disaster -- this will be 400 calls for russet.
+        if( $wp_query->query_vars["kblog-toc"]=="bib"){
+            $posts = $this->get_posts();
+            foreach($posts as $post){
+                $url = "http://greycite.knowledgeblog.org/bib?uri=" . get_permalink( $post );
+      
+                $wpresponse = wp_remote_get( $url );
+                if( is_wp_error( $wpresponse ) ){
+                    exit();
+                }
+      
+                $status = wp_remote_retrieve_response_code( $wpresponse );
+                
+                if( $status != 200 ){ 
+                    exit();
+                }
+      
+                $response = wp_remote_retrieve_body( $wpresponse );
+                
+                print( $response);
+                print( "\n" );
+            }
+            exit();
+        }
+
 
         if( $wp_query->query_vars["kblog-toc"]=="html"){
             echo <<<EOT
@@ -164,11 +190,29 @@ kblog_table_init();
 class kblog_table_of_contents_admin{
 
     function __construct(){
-        add_action( "kblog_admin", array( $this, "plugin_options_menu" ) );
+        add_action( "kblog_metadata_admin_render", array( $this, "options_render" ) );
+        add_action( "kblog_metadata_admin_save", array( $this, "options_save" ) );
     }
 
 
-    function plugin_options_menu()
+    function options_save(){
+        // check for updates
+        if( array_key_exists( "kblog-table-display-categories", $_POST ) ){
+            
+            if( $_POST["kblog-table-display-categories"]=="all_posts"){
+                delete_option( $kblog_table->category_slug );
+            }
+            else{
+                update_option( $kblog_table->category_slug,
+                               $_POST["kblog-table-display-categories"]
+                               );
+            }
+            // TODO -- check for actual change
+            echo "<p><i>Category Options Updated</i></p>";
+        }
+    }
+
+    function options_render()
     {
         if( !current_user_can('manage_options')){
             wp_die( __('You do not have sufficient permissions to access this page.'));
@@ -179,25 +223,10 @@ class kblog_table_of_contents_admin{
         $out .= <<<EOT
 
 <h3>Table of Contents</h3>
-<form id="kblog-table" name="ktoc" action="" method="POST">
-<input type="hidden" name="kblog-table-hidden" value="Y">
 <p>What is default category to display?</p>
 <select name="kblog-table-display-categories">
 EOT;
-
-        // check for updates
-        if($_POST['kblog-table-hidden']=="Y"){
-            if( $_POST["kblog-table-display-categories"]=="all_posts"){
-                delete_option( $kblog_table->category_slug );
-            }
-            else{
-                update_option( $kblog_table->category_slug,
-                               $_POST["kblog-table-display-categories"]
-                               );
-            }
-            $out.="<p><i>Options Updated</i></p>";
-        }
-
+     
         // main GUI
 
         $categories = get_categories();
@@ -216,17 +245,7 @@ EOT;
             
             $out .= "<option value='$name' $select_string>$name</option>\n";
         }
-
-        // internationalise for the hell of it.
-        $save_changes = __("Save Changes");
-        
-        $out .= <<<EOT
-            </select>
-            <p class="submit">
-            <input type="submit" class="button-primary" value="$save_changes"/>
-            </p>
-            </form>
-EOT;
+        $out .= "</select>";
 
         // and print
         print( $out );

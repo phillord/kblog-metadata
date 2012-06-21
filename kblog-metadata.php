@@ -30,6 +30,8 @@ require_once( dirname( __FILE__ ) . "/kblog-author.php" );
 require_once( dirname( __FILE__ ) . "/kblog-table-of-contents.php" );
 require_once( dirname( __FILE__ ) . "/kblog-headers.php" );
 require_once( dirname( __FILE__ ) . "/kblog-title.php" );
+require_once( dirname( __FILE__ ) . "/kblog-boilerplate.php" );
+require_once( dirname( __FILE__ ) . "/kblog-download.php" );
 
 /*
  * A single admin page for all metadata functions
@@ -53,14 +55,35 @@ class kblog_metadata_admin{
         if( !current_user_can('manage_options')){
             wp_die( __('You do not have sufficient permissions to access this page.'));
         }
+        
+        $nonce = wp_nonce_field( "kblog_metadata_field", 
+                                 "kblog_metadata_title",
+                                 true, false );
 
         echo <<<EOT
 <h2>Kblog Metadata</h2>
 EOT;
-        
-        // let everything else run
-        do_action( "kblog_admin" );
 
+        if( !wp_verify_nonce( $_POST["kblog_metadata_field"],
+                              "kblog_metadata_title" ) ){
+            do_action( "kblog_metadata_admin_save" );
+        }
+        
+        
+        echo '<form id="kblog-metadata" name="kblog-metadata" action="" method="POST">';
+        // let everything else run
+        do_action( "kblog_metadata_admin_render" );
+        
+        // internationalise for the hell of it.
+        $save_changes = __("Save Changes");
+        
+        echo <<<EOT
+
+            <p class="submit">
+            <input type="submit" class="button-primary" value="$save_changes"/>
+            </p>
+            </form>
+EOT;
 
     }
 }
