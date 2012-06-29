@@ -4,7 +4,7 @@ Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 0.2
+Stable tag: 0.3
 
 Tools for exposing and editing the bibliographic metadata of academic posts. 
 
@@ -31,13 +31,16 @@ adding metadata in as many formats as possible, in the hope that, for any
 tool, at least one will work. 
 
 Kblog Metadata enhances the ability of WordPress to expose and edit
-bibliographic metadata of academic posts. It currently consists of four
+bibliographic metadata of academic posts. It consists of a number of 
 pieces of functionality
 
 * kblog-headers -- adds invisible metadata
 * kblog-authors -- allows multiple authors, without requring WordPress accounts
 * kblog-table-of-contents -- displays all posts in a variety of formats. 
 * kblog-title -- set container titles ("blogname") per post or using a custom taxonomy.
+* kblog-boilerplate -- displays citation information as widget or in post
+  content
+* kblog-download -- downloaded bib or other formats for posts
 
 We will include new formats or specifications where possible, so long as they
 are not too computationally intensive. Please send email to the [mailing
@@ -97,6 +100,7 @@ the year, or meeting number, appear in the metadata. Kblog Title allows both
 of these uses, by allowing the user to set the container name ("blogname")
 either for an individual post, or using an Event tag. 
 
+== Kblog
 
 == Acknowledgements ==
 
@@ -112,10 +116,23 @@ License.
 
 == Upgrade Notice ==
 
+= 0.3 = 
+
+1. New Widget Sets added displaying Citation and Download options
+
 = 0.2 = 
-Can now support multiple event titles on a single blog.
+
+1. Can now support multiple event titles on a single blog.
 
 == Changelog ==
+
+= 0.3 = 
+
+1. Widgets have been added displaying Citation and Download data. 
+1. Reworked Options page.
+1. Escaping issues in Titles (hopefully) fixed. 
+1. All features should now work on pages as well as posts. 
+
 
 = 0.2 = 
 
