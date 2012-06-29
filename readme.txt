@@ -3,7 +3,7 @@
 Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Stable tag: 0.3
 
 Tools for exposing and editing the bibliographic metadata of academic posts. 
