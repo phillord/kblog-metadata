@@ -146,12 +146,14 @@ class kblog_boilerplate_admin{
             $boilerplatep = 'checked="true"';
         } 
         
+
         $out .= <<<EOT
             
 <h3>Citation</h3>
 <p>Include Citation in post content?
 <input type="checkbox" name="kblog_boilerplate_in_content" value="true" $boilerplatep/>
 </p> 
+
 EOT;
         echo $out;
     }

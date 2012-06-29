@@ -3,7 +3,7 @@
   Plugin Name: Kblog Metadata
   Plugin URI: http://www.knowledgeblog.org
   Description: Tools for exposing and editing the bibliographic metadata of academic posts. 
-  Version: 0.2
+  Version: 0.3
   Author: Phillip Lord
   Author URI: http://www.knowledgeblog.org
   Email: knowledgeblog@googlegroups.com
