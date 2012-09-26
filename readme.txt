@@ -3,8 +3,8 @@
 Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 0.3
+Tested up to: 3.4.2
+Stable tag: 0.4
 
 Tools for exposing and editing the bibliographic metadata of academic posts. 
 
@@ -117,6 +117,10 @@ License.
 
 == Upgrade Notice ==
 
+= 0.4 = 
+ 
+1. New Headers and Simple HTML capabilities added
+
 = 0.3 = 
 
 1. New Widget Sets added displaying Citation and Download options
@@ -126,6 +130,11 @@ License.
 1. Can now support multiple event titles on a single blog.
 
 == Changelog ==
+
+= 0.4 = 
+
+1. New headers added to enable Mendeley
+1. SimpleHTML option added to Download
 
 = 0.3 = 
 
