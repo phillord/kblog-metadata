@@ -6,9 +6,14 @@ require_once( dirname( __FILE__ ) . '/HumanNameParser/Parser.php' );
 
 class kblog_headers{
     function __construct(){
+        add_action( "wp_head", array( $this, "header_action" ) );
         $this->init_coins();
         $this->init_google_scholar();
         $this->init_ogp();
+    }
+
+    function header_action(){
+        do_action( "kblog_head" );
     }
 
     /* Begin COINS section */
@@ -60,7 +65,7 @@ class kblog_headers{
 
     function init_google_scholar(){
         // Google Scholar meta tags
-        add_action( "wp_head", array( $this, "kblog_metadata_header_metatags" ) );
+        add_action( "kblog_head", array( $this, "kblog_metadata_header_metatags" ) );
     }
 
     function kblog_metadata_header_metatags(){
@@ -76,16 +81,22 @@ class kblog_headers{
              array( "resource_type"=>"knowledgeblog" ),
              array( "citation_journal_title"=>$this->htmlentities( $this->get_container_title() ) ),
              array( "citation_publication_date"=>$this->htmlentities( get_the_time( 'Y/m/d' ) ) ),
+             array( "citation_date"=>$this->htmlentities( get_the_time( 'Y' ) ) )
              );
         
         
         if( is_single() || is_page() ){
             $authors = $this->kblog_metadata_get_authors();
+            $author_array = array();
             foreach( $authors as $author ){
-                
+                list($firstname,$lastname) = $this->kblog_metadata_first_name_last_name( $author );
+                $author_array[] = "$lastname, $firstname";
                 $metadata_items[] = array
                     ( "citation_author"=>$this->htmlentities($this->kblog_metadata_concat_name($author)));
             }
+            
+            $metadata_items[] = array
+                ("citation_authors"=>implode( ";", $author_array ) );
             
             $metadata_items[] = array
                 ("citation_title"=>$this->htmlentities( $this->kblog_metadata_get_the_title() ) );
@@ -100,7 +111,7 @@ class kblog_headers{
     function init_ogp(){
         add_filter( "language_attributes", 
                     array( $this, "kblog_metadata_language_attributes_ogp_filter" ) );
-        add_action( "wp_head", 
+        add_action( "kblog_head", 
                     array( $this, "kblog_metadata_header_ogp_metatags" ) );
 
         add_filter( "query_vars",
@@ -192,20 +203,8 @@ class kblog_headers{
 
             if( $author < count( $kblog_authors ) ){
                 $kblog_author_meta = $kblog_authors[$author];
-                $firstname = "";
-                $lastname = "";
                 
-                if( array_key_exists( "first_name", $kblog_author_meta ) &&
-                    array_key_exists( "last_name", $kblog_authors_meta ) ){
-                    $firstname = $kblog_author_meta[ "first_name" ];
-                    $lastname = $kblog_author_meta[ "last_name" ];
-                }
-                else{
-                    // 2. instantiate the parser, passing the (utf8-encoded) name you want to parse
-                    $parser = new HumanNameParser_Parser( $kblog_author_meta[ "display_name" ] );
-                    $firstname = $parser->getFirst();
-                    $lastname = $parser->getLast();
-                }
+                list($firstname,$lastname) = $this->kblog_metadata_first_name_last_name( $kblog_author_meta );
                     
 
                 echo <<< EOT
@@ -249,6 +248,22 @@ EOT;
             '" content="' . $value . '"/>' . "\n";
     }
     
+    function kblog_metadata_first_name_last_name( $author ){
+        if( array_key_exists( "first_name", $author ) &&
+            array_key_exists( "last_name", $author ) ){
+            $firstname = $author[ "first_name" ];
+            $lastname = $author[ "last_name" ];
+        }
+        else{
+            // 2. instantiate the parser, passing the (utf8-encoded) name you want to parse
+            $parser = new HumanNameParser_Parser( $author[ "display_name" ] );
+            $firstname = $parser->getFirst();
+            $lastname = $parser->getLast();
+        }
+
+        return array( $firstname, $lastname );
+    }
+
     function kblog_metadata_concat_name( $author ){
         if( array_key_exists( "first_name", $author ) &&
             array_key_exists( "last_name", $author ) ){
