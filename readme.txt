@@ -11,10 +11,12 @@ Tools for exposing and editing the bibliographic metadata of academic posts.
 == Description ==
 
 This plugin enables other software to extract who, what and when information
-from a blog and it's posts. It is part of the Knowledgeblog project
+from a blog and its posts. It is part of the Knowledgeblog project
 (http://knowledgeblog.org), which is developing plugins to improve WordPress
 as a tool for academic publishing, either for individual authors, or for
-conferences and workshops publishing proceedings to the web. 
+conferences and workshops publishing proceedings to the web. As well as this
+file, additional documentation is available at
+[Process](http://process.knowledgeblog.org/category/kblog-metadata).
 
 It is often useful to embed bibliographic metadata, describing the author(s),
 title and publication date into a web page. There are a variety of different
@@ -100,7 +102,6 @@ the year, or meeting number, appear in the metadata. Kblog Title allows both
 of these uses, by allowing the user to set the container name ("blogname")
 either for an individual post, or using an Event tag. 
 
-== Kblog
 
 == Acknowledgements ==
 
