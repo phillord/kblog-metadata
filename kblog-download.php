@@ -3,7 +3,7 @@
 class kblog_download{
 
   function __construct(){
-    wp_register_sidebar_widget( 'kblog-download',
+      wp_register_sidebar_widget( 'kblog-download',
                                 'Download',
                                 array( $this, 'widget'),
                                 array( "description" => "Download options for the article or " .
@@ -25,10 +25,18 @@ EOT;
 
   function get_single(){
     $permalink = urlencode( get_permalink() );
+    if( strpos( get_permalink(), "?" ) === false ){
+        $simple_url = get_permalink() .  "?kblog-transclude=2";
+    }
+    else{
+        $simple_url = get_permalink() . "&kblog-transclude=2";
+    }
     
     $retn = <<<EOT
-<a href="http://greycite.knowledgeblog.org/bib?uri=$permalink">[bib]</a>
-
+<ul>
+<li><a href="http://greycite.knowledgeblog.org/bib?uri=$permalink">[bib]</a></li>
+<li><a href="$simple_url">[Simple HTML]</a></li>
+</ul>
 EOT;
     
     return $retn;
