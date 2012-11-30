@@ -79,9 +79,9 @@ class kblog_headers{
         $metadata_items = array
             (
              array( "resource_type"=>"knowledgeblog" ),
-             array( "citation_journal_title"=>$this->htmlentities( $this->get_container_title() ) ),
-             array( "citation_publication_date"=>$this->htmlentities( get_the_time( 'Y/m/d' ) ) ),
-             array( "citation_date"=>$this->htmlentities( get_the_time( 'Y' ) ) )
+             array( "citation_journal_title"=>$this->get_container_title() ),
+             array( "citation_publication_date"=>get_the_time( 'Y/m/d' ) ),
+             array( "citation_date"=>get_the_time( 'Y' ) )
              );
         
         
@@ -92,14 +92,14 @@ class kblog_headers{
                 list($firstname,$lastname) = $this->kblog_metadata_first_name_last_name( $author );
                 $author_array[] = "$lastname, $firstname";
                 $metadata_items[] = array
-                    ( "citation_author"=>$this->htmlentities($this->kblog_metadata_concat_name($author)));
+                    ( "citation_author"=>$this->kblog_metadata_concat_name($author) );
             }
             
             $metadata_items[] = array
                 ("citation_authors"=>implode( ";", $author_array ) );
             
             $metadata_items[] = array
-                ("citation_title"=>$this->htmlentities( $this->kblog_metadata_get_the_title() ) );
+                ("citation_title"=>$this->kblog_metadata_get_the_title() );
         }
         
         return $this->kblog_metadata_generate_metatags( "name", $metadata_items );
@@ -140,12 +140,12 @@ class kblog_headers{
         // got to here
         $metadata_items = array();
         $metadata_items[] = array
-            ("og:site_name"=>$this->htmlentities( $this->get_container_title() ) );
+            ("og:site_name"=>$this->get_container_title() );
         
 
         if( is_single() || is_page() ){
             $metadata_items[] = array
-                ("og:title"=>$this->htmlentities( $this->kblog_metadata_get_the_title() ) );
+                ("og:title"=>$this->kblog_metadata_get_the_title() );
             $metadata_items[] = array
                 ("og:type"=>"article");
             $metadata_items[] = array
@@ -161,14 +161,14 @@ class kblog_headers{
                 $metadata_profile = 
                     home_url() . "/" . 
                     "?kblog-header-p=" . $this->kblog_metadata_get_the_ID() . 
-                    "&kblog-header-author=" . $author_number++;
+                    "&amp;kblog-header-author=" . $author_number++;
                 $metadata_items[] = array
                     ( "og:author"=>$metadata_profile );
                                           
             }
             
             $metadata_items[] = array
-                ( "article:published_date"=>get_the_time("Y-m-d") );
+                ( "article:published_time"=>get_the_time("Y-m-d") );
         }
         else{
             $metadata_items[] = array
@@ -256,9 +256,17 @@ EOT;
         }
         else{
             // 2. instantiate the parser, passing the (utf8-encoded) name you want to parse
-            $parser = new HumanNameParser_Parser( $author[ "display_name" ] );
-            $firstname = $parser->getFirst();
-            $lastname = $parser->getLast();
+            try{
+                $parser = new HumanNameParser_Parser( $author[ "display_name" ] );
+                $firstname = $parser->getFirst();
+                $lastname = $parser->getLast();
+            }
+            catch(Exception $e){
+                // cannot sanely parse the name, so set the display name to the last name
+                // and hope for the best
+                $firstname = "";
+                $lastname = $author[ "display_name" ];
+            }
         }
 
         return array( $firstname, $lastname );

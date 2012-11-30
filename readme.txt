@@ -4,7 +4,7 @@ Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 0.4
+Stable tag: 0.5
 
 Tools for exposing and editing the bibliographic metadata of academic posts. 
 
@@ -16,7 +16,7 @@ from a blog and its posts. It is part of the Knowledgeblog project
 as a tool for academic publishing, either for individual authors, or for
 conferences and workshops publishing proceedings to the web. As well as this
 file, additional documentation is available at
-[Process](http://process.knowledgeblog.org/category/kblog-metadata).
+[process](http://process.knowledgeblog.org/category/kblog-metadata).
 
 It is often useful to embed bibliographic metadata, describing the author(s),
 title and publication date into a web page. There are a variety of different
@@ -117,6 +117,10 @@ License.
 
 == Upgrade Notice ==
 
+= 0.5 = 
+
+1. Bug fix release. 
+
 = 0.4 = 
  
 1. New Headers and Simple HTML capabilities added
@@ -130,6 +134,13 @@ License.
 1. Can now support multiple event titles on a single blog.
 
 == Changelog ==
+
+= 0.5 = 
+
+1. Changes to the way entities are encoded in titles, hopefully preventing
+   "double escaping"
+1. Update to handling of name parsing. Single names should no longer cause a
+   crash (but will be treated as surnames). 
 
 = 0.4 = 
 
