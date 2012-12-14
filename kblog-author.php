@@ -90,6 +90,23 @@ class kblog_author{
         return $this->get_authors_from_meta($this->kblog_opt_short_authors,$postid);
     }
     
+    function get_coauthors($postid){
+        $cuauth_retn = array();
+        if( function_exists( 'get_coauthors' ) ){
+            $coauthors = get_coauthors($post_id);
+            if(count($coauthors) > 0){
+                $coauth_retn = array();
+                
+                foreach($coauthors as $coauthor){
+                    $coauth_retn[] = 
+                        array( "display_name"=>$coauthor->display_name );
+                    
+                }
+            }
+        }
+        return $coauth_retn;
+    }
+    
     function get_authors_from_meta($slug, $postid){
         // true -- single value, which in practice means a deserialized array. 
         $authors = get_post_meta( $postid, $slug, true );
@@ -100,6 +117,7 @@ class kblog_author{
         }
         return $authors;
     }
+
 
     function get_authors_display($postid){
         $authors = $this->get_short_authors_from_meta($postid);
@@ -147,10 +165,12 @@ class kblog_author_admin{
     function render_author_meta_box(){
         global $kblog_author;
         
+        $out = "";
+        
         $shortcode_authors = $kblog_author->get_short_authors_from_meta( get_the_ID() );
         // set in short code
         if( count( $shortcode_authors ) > 0 ){
-            $out = "Authors are set within the content, and must be edited there.\n<ol>";
+            $out .= "Authors are set within the content, and must be edited there.\n<ol>";
             
             foreach( $shortcode_authors as $auth ){
                 $display_name = $auth['display_name'];
@@ -165,16 +185,30 @@ class kblog_author_admin{
         $gui_authors = $kblog_author->get_gui_authors_from_meta( get_the_ID() );
         
         if( count( $gui_authors ) == 0 ){
-            // check for wordpress author
-            $authorID = get_post( get_the_ID() )->post_author;
             
-            $out = "<p>Display author is currently <strong>";
-            $out .= get_the_author_meta("display_name", $authorID);
-            $out .= "</strong> who is the WordPress author</p>\n";
-            $out .= "<p>Set display authors</p>";
+
+            $coauthors = $kblog_author->get_coauthors( get_the_ID() );
+            if( count($coauthors) > 0 ){
+                $out .= "<p>Display authors are currently: </p><strong><ul>";
+                foreach( $coauthors as $coauthor ){
+                    $out .= "<li>" . $coauthor['display_name'] . "</li>\n";
+                }
+                $out .= "</ul></strong> <p>defined by co-authors plus.</p>\n";
+            }
+            else{
+
+                // check for wordpress author
+                $authorID = get_post( get_the_ID() )->post_author;
+                
+                $out .= "<p>Display author is currently <strong>";
+                $out .= get_the_author_meta("display_name", $authorID);
+                $out .= "</strong> who is the WordPress author</p>\n";
+            }
         }
-
-
+        
+        $out .= "<p>Set display authors</p>";
+                        
+        
         $out .= wp_nonce_field("kblog_set_authors",
              "kblog_set_authors_field",
              true, false );
@@ -294,20 +328,11 @@ function kblog_author_get_authors($postid=false){
     }
     
     // fall back to co-authors plus if it is available
-    if( function_exists( 'get_coauthors' ) ){
-        $coauthors = get_coauthors($post_id);
-        if(count($coauthors) > 0){
-            $coauth_retn = array();
-            
-            foreach($coauthors as $coauthor){
-                $coauth_retn[] = 
-                    array( "display_name"=>$coauthor->display_name );
-               
-            }
-            return $coauth_retn;
-        }
+    $coauthors = $kblog_author->get_coauthors($postid);
+    if(count($coauthors)>0){
+        return $coauthors;
     }
-
+    
     // fall back to wordpress
     $authorID = get_post( $postid )->post_author;
     return array
