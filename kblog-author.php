@@ -292,6 +292,21 @@ function kblog_author_get_authors($postid=false){
     if(count($kblog_gui_authors) > 0){
         return $kblog_gui_authors;
     }
+    
+    // fall back to co-authors plus if it is available
+    if( function_exists( 'get_coauthors' ) ){
+        $coauthors = get_coauthors($post_id);
+        if(count($coauthors) > 0){
+            $coauth_retn = array();
+            
+            foreach($coauthors as $coauthor){
+                $coauth_retn[] = 
+                    array( "display_name"=>$coauthor->display_name );
+               
+            }
+            return $coauth_retn;
+        }
+    }
 
     // fall back to wordpress
     $authorID = get_post( $postid )->post_author;
