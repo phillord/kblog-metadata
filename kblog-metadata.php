@@ -33,7 +33,7 @@ require_once( dirname( __FILE__ ) . "/kblog-title.php" );
 require_once( dirname( __FILE__ ) . "/kblog-boilerplate.php" );
 require_once( dirname( __FILE__ ) . "/kblog-transclude.php" );
 require_once( dirname( __FILE__ ) . "/kblog-download.php" );
-
+require_once( dirname( __FILE__ ) . "/kblog-archive.php" );
 
 /*
  * A single admin page for all metadata functions
