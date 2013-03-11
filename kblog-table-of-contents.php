@@ -196,9 +196,8 @@ class kblog_table_of_contents_admin{
 
 
     function options_save(){
-        // check for updates
+        global $kblog_table;
         if( array_key_exists( "kblog-table-display-categories", $_POST ) ){
-            
             if( $_POST["kblog-table-display-categories"]=="all_posts"){
                 delete_option( $kblog_table->category_slug );
             }
