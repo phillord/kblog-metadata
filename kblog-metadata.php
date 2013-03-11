@@ -2,12 +2,12 @@
 /*
   Plugin Name: Kblog Metadata
   Plugin URI: http://www.knowledgeblog.org
-  Description: Tools for exposing and editing the bibliographic metadata of academic posts. 
+  Description: Tools for exposing and editing the bibliographic metadata of academic posts.
   Version: 0.5
   Author: Phillip Lord
   Author URI: http://www.knowledgeblog.org
   Email: knowledgeblog@googlegroups.com
-  
+
   Copyright 2011 Phillip Lord (phillip.lord@newcastle.ac.uk)
   Newcastle University
 
@@ -49,7 +49,7 @@ class kblog_metadata_admin{
         add_options_page("Kblog Metadata", "Kblog Metadata",
                          "manage_options", "kblog-metadata",
                          array($this, "plugin_options_menu") );
-    
+
     }
 
     function plugin_options_menu(){
@@ -57,30 +57,30 @@ class kblog_metadata_admin{
         if( !current_user_can('manage_options')){
             wp_die( __('You do not have sufficient permissions to access this page.'));
         }
-        
-        $nonce = wp_nonce_field( "kblog_metadata_field", 
-                                 "kblog_metadata_title",
-                                 true, false );
 
-        echo <<<EOT
-<h2>Kblog Metadata</h2>
-EOT;
+        echo "<h2>Kblog Metadata</h2>";
 
-        if( !wp_verify_nonce( $_POST["kblog_metadata_field"],
-                              "kblog_metadata_title" ) ){
+        if( wp_verify_nonce( $_POST["kblog_metadata_admin_save_field"],
+                             "kblog_metadata_admin_save_action" ) ){
             do_action( "kblog_metadata_admin_save" );
         }
-        
-        
+        else{
+            echo "Refusing to save";
+        }
+
+        $nonce = wp_nonce_field( "kblog_metadata_admin_save_action",
+                                 "kblog_metadata_admin_save_field",
+                                 true, false );
+
         echo '<form id="kblog-metadata" name="kblog-metadata" action="" method="POST">';
         // let everything else run
         do_action( "kblog_metadata_admin_render" );
-        
+
         // internationalise for the hell of it.
         $save_changes = __("Save Changes");
-        
-        echo <<<EOT
 
+        echo <<<EOT
+            $nonce
             <p class="submit">
             <input type="submit" class="button-primary" value="$save_changes"/>
             </p>
@@ -94,7 +94,7 @@ function kblog_metadata_admin_init(){
     global $kblog_metadata;
     $kblog_metadata = new kblog_metadata_admin();
 }
-    
+
 
 if( is_admin() ){
     kblog_metadata_admin_init();
