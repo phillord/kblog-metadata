@@ -64,9 +64,7 @@ class kblog_metadata_admin{
                              "kblog_metadata_admin_save_action" ) ){
             do_action( "kblog_metadata_admin_save" );
         }
-        else{
-            echo "Refusing to save";
-        }
+
 
         $nonce = wp_nonce_field( "kblog_metadata_admin_save_action",
                                  "kblog_metadata_admin_save_field",
