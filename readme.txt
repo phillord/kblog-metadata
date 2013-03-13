@@ -4,7 +4,7 @@ Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 0.5
+Stable tag: 0.6
 
 Displays bibliographic metadata both for humans and computers.
 
