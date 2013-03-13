@@ -3,19 +3,26 @@
 Contributors: philliplord
 Tags: res-comms, scholar, academic, science
 Requires at least: 3.0
-Tested up to: 3.4.2
+Tested up to: 3.5.1
 Stable tag: 0.5
 
-Tools for exposing and editing the bibliographic metadata of academic posts. 
+Displays bibliographic metadata both for humans and computers.
 
 == Description ==
 
-This plugin enables other software to extract who, what and when information
-from a blog and its posts. It is part of the Knowledgeblog project
-(http://knowledgeblog.org), which is developing plugins to improve WordPress
-as a tool for academic publishing, either for individual authors, or for
-conferences and workshops publishing proceedings to the web. As well as this
-file, additional documentation is available at
+This plugin displays who, what and when information about a blog and its
+posts; it provides widgets which readers can see, as well as a computational
+representation that allows computers to extract the same information. This
+provides greater clarity on who posts are written by, and how they should be
+cited. Readers can download the citation as a BibTeX file. Another widget
+provides deep links through to Web Archives, allowing readers to check old
+versions of posts. 
+
+It is part of the Knowledgeblog project (http://knowledgeblog.org), which is
+developing plugins to improve WordPress as a tool for academic publishing,
+either for individual authors, or for conferences and workshops publishing
+proceedings to the web. As well as this file, additional documentation is
+available at
 [process](http://process.knowledgeblog.org/category/kblog-metadata).
 
 It is often useful to embed bibliographic metadata, describing the author(s),
@@ -43,6 +50,7 @@ pieces of functionality
 * kblog-boilerplate -- displays citation information as widget or in post
   content
 * kblog-download -- downloaded bib or other formats for posts
+* kblog-archive -- widget to display web archives
 
 We will include new formats or specifications where possible, so long as they
 are not too computationally intensive. Please send email to the [mailing
@@ -117,6 +125,10 @@ License.
 
 == Upgrade Notice ==
 
+= 0.6 =
+
+1. Security update. Addresses vulnerability on admin page. 
+
 = 0.5 = 
 
 1. Bug fix release. 
@@ -134,6 +146,14 @@ License.
 1. Can now support multiple event titles on a single blog.
 
 == Changelog ==
+
+= 0.6 =
+
+1. There was a weakness in the security of the admin page which has now been
+   addresses. This potentially allowed third parties to change options for this
+   plugin. 
+1. A new widget, "Archived" has been added which displays deep links to web
+   archives. These links are now also present in the .bib file downloads.
 
 = 0.5 = 
 
