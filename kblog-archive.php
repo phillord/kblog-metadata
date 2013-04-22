@@ -24,9 +24,13 @@ class kblog_archive{
         // kill the transients if necessary!
         //delete_transient( $this->transient_slug($url) );
         $option = get_transient( $this->transient_slug( $url ) );
+        // stop multiple requests going on. This sets the default no answer up
+        // on first request, for 60 seconds. If a valid response comes from
+        // greycite, it will override.
+        set_transient( $this->transient_slug( $url ), "[]", 60 );
+        //$option = false;
         if( !$option ){
             $greycite_url = "http://greycite.knowledgeblog.org/archives?uri=" . $url;
-            //$greycite_url = "http://zerg32.ncl.ac.uk/archives.html";
             
             $wp_response = wp_remote_get( $greycite_url );
             
@@ -34,10 +38,14 @@ class kblog_archive{
                 return;
             }
             $status = wp_remote_retrieve_response_code( $wp_response );
-
+            
             if( $status == 200 ){ 
                 $option = wp_remote_retrieve_body( $wp_response );
-                set_transient( $this->transient_slug( $url ), $option, 60 * 60 * 24 * 7 );
+                set_transient( $this->transient_slug( $url ), $option,
+                               60 * 60 * 24 * 7 );
+            }
+            else{
+                $option="[]";
             }
         }
         

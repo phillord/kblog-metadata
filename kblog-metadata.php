@@ -25,7 +25,6 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
 require_once( dirname( __FILE__ ) . "/kblog-author.php" );
 require_once( dirname( __FILE__ ) . "/kblog-table-of-contents.php" );
 require_once( dirname( __FILE__ ) . "/kblog-headers.php" );
@@ -34,6 +33,7 @@ require_once( dirname( __FILE__ ) . "/kblog-boilerplate.php" );
 require_once( dirname( __FILE__ ) . "/kblog-transclude.php" );
 require_once( dirname( __FILE__ ) . "/kblog-download.php" );
 require_once( dirname( __FILE__ ) . "/kblog-archive.php" );
+require_once( dirname( __FILE__ ) . "/kblog-date.php" );
 
 /*
  * A single admin page for all metadata functions

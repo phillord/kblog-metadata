@@ -10,7 +10,8 @@ class kblog_author{
     function __construct(){
         add_shortcode( 'author', array( $this, 'author_shortcode' ) );
         // we want to run after the shortcode filter has worked
-        add_filter( 'the_content', array( $this, 'process_author_results' ), 12 );
+        add_filter( 'the_content', array( $this, 'process_author_results' )
+                    , 12 );
     }
 
     
@@ -44,9 +45,8 @@ class kblog_author{
     }
 
     function store_authors_as_meta($slug, $authors){
-        $postid = get_the_id();
+        $postid = get_the_ID();
         $stored_authors = $this->get_authors_from_meta($slug, $postid);
-        
         // all the same, so stop
         if( $this->compare_authors( $stored_authors, $authors ) ){
             return;

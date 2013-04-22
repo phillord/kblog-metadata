@@ -48,7 +48,7 @@ class kblog_headers{
         }
         $title = urlencode( get_the_title() );
         $blogtitle = urlencode( $this->get_container_title() );
-        $time = get_the_time( 'Y-m-d' );
+        $time = kblog_date_get_the_time( 'Y-m-d' );
         $permalink = urlencode( get_permalink() );
         
         return
@@ -80,8 +80,8 @@ class kblog_headers{
             (
              array( "resource_type"=>"knowledgeblog" ),
              array( "citation_journal_title"=>$this->get_container_title() ),
-             array( "citation_publication_date"=>get_the_time( 'Y/m/d' ) ),
-             array( "citation_date"=>get_the_time( 'Y' ) )
+             array( "citation_publication_date"=>kblog_date_get_the_time( 'Y/m/d' ) ),
+             array( "citation_date"=>kblog_date_get_the_time( 'Y' ) )
              );
         
         

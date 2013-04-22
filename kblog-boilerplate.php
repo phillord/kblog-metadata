@@ -49,7 +49,7 @@ EOT;
         $title = kblog_title_get_container_title();
         $article = get_the_title();
         $authors = kblog_author_author();
-        $year = get_the_time( 'Y' );
+        $year = kblog_date_get_the_time( 'Y' );
         $permalink = get_permalink();
         
         

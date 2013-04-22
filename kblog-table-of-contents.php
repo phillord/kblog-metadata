@@ -176,7 +176,6 @@ EOT;
         return
             kblog_author_get_authors($post->ID);
     }
-    
 
 }
 
